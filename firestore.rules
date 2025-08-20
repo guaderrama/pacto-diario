@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public read access to the 'narratives' collection
+    match /narratives/{narrativeId} {
+      allow read: if true;
+      allow write: if false; // No public write access
+    }
+
+    // Deny all other access by default for other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
