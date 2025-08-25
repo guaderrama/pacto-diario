@@ -158,3 +158,28 @@ exports.getUserProfile = functions.https.onRequest((req, res) => {
         }
     });
 });
+
+exports.generateLoveLanguageIdea = functions.https.onRequest((req, res) => {
+    cors(req, res, async () => {
+        if (req.method !== 'POST') { return res.status(405).send('Method Not Allowed'); }
+        try {
+            const uid = await getAuthenticatedUid(req);
+            const { userLoveLanguage, partnerLoveLanguage } = req.body;
+
+            if (!userLoveLanguage || !partnerLoveLanguage) {
+                throw new functions.https.HttpsError('invalid-argument', 'Love languages are required.');
+            }
+
+            const prompt = `Eres un consejero matrimonial. Genera una idea práctica y concreta para que una pareja exprese amor, considerando que el lenguaje del amor de uno es '${userLoveLanguage}' y el del otro es '${partnerLoveLanguage}'. La idea debe ser positiva, fácil de realizar hoy y enfocada en la conexión. Devuelve solo la idea, sin introducciones ni conclusiones.`;
+            
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+
+            res.status(200).json({ idea: text });
+        } catch (error) {
+            console.error("Error in generateLoveLanguageIdea:", error);
+            res.status(error.code === 'unauthenticated' ? 401 : 500).json({ error: error.message });
+        }
+    });
+});
