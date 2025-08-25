@@ -8,6 +8,16 @@ service cloud.firestore {
       allow write: if false; // No public write access
     }
 
+    // Allow authenticated users to read and write their own profile data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Allow authenticated users to read 'dailyJourney' documents
+    match /dailyJourney/{documentId} {
+      allow read: if request.auth != null;
+    }
+
     // Deny all other access by default for other collections
     match /{document=**} {
       allow read, write: if false;

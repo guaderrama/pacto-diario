@@ -7,8 +7,9 @@ admin.initializeApp();
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const API_KEY = "AIzaSyDWdc6YiwzwNdCTFyu2i7VBSvdXsJjheMU"; // Hardcoded for local testing
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Carga la API Key de forma segura desde la configuración de Firebase
+// Para desarrollo local, ejecuta: firebase functions:config:set gemini.key="TU_API_KEY"
+const genAI = new GoogleGenerativeAI(functions.config().gemini.key);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // Helper function to verify user token
@@ -37,10 +38,28 @@ exports.generateLogosResponse = functions.https.onRequest((req, res) => {
             const result = await model.generateContent(prompt);
             const response = await result.response;
             const text = response.text();
-            const parsedResponse = JSON.parse(text.replace(/```json\n|```/g, ''));
+
+            // Find and parse the JSON block from the response text
+            let parsedResponse;
+            try {
+                // Use a regex to find the JSON block, ignoring the markdown backticks
+                const jsonMatch = text.match(/\{.*\}/s);
+                if (!jsonMatch) {
+                    throw new Error("No valid JSON block found in Gemini's response.");
+                }
+                parsedResponse = JSON.parse(jsonMatch[0]);
+            } catch (parseError) {
+                console.error("Error parsing JSON from Gemini response:", text);
+                return res.status(500).json({ error: "Failed to parse the guide from the AI's response." });
+            }
 
             if (!parsedResponse.story || !parsedResponse.fact || !parsedResponse.prayer || !parsedResponse.keyword) {
-                return res.status(500).json({ error: "Gemini's response was incomplete." });
+                let missingFields = [];
+                if (!parsedResponse.story) missingFields.push("story");
+                if (!parsedResponse.fact) missingFields.push("fact");
+                if (!parsedResponse.prayer) missingFields.push("prayer");
+                if (!parsedResponse.keyword) missingFields.push("keyword");
+                return res.status(500).json({ error: `Gemini's response was incomplete. Missing fields: ${missingFields.join(', ')}.` });
             }
             res.status(200).json(parsedResponse);
         } catch (error) {
@@ -67,20 +86,21 @@ exports.getDailyJourneyContent = functions.https.onRequest((req, res) => {
             }
 
             // 3. Construir el prompt personalizado
-            const day = new Date().getDay();
-            let prompt = "";
-            let title = "";
-            switch (day) {
-                case 0: case 6: title = "Conexión Divertida"; prompt = `Eres un consejero de parejas. Genera una idea corta, original y divertida para que una pareja (${userName} y ${partnerName}) conecte hoy. El objetivo es reír juntos. La respuesta debe ser un solo párrafo.`; break;
-                case 1: title = "Santuario de Oración"; prompt = `Eres un consejero espiritual. Genera una reflexión corta para ${userName} y ${partnerName} sobre la importancia de empezar la semana orando en pareja. Anima a compartir una preocupación y orar el uno por el otro. La respuesta debe ser un solo párrafo.`; break;
-                case 2: title = "Traduciendo el Amor (Gary Chapman)"; prompt = `Actuando como un consejero matrimonial inspirado en 'Los 5 Lenguajes del Amor' de Gary Chapman, genera un reto práctico y corto sobre el lenguaje del amor 'Actos de Servicio' para la pareja ${userName} y ${partnerName}. La respuesta debe ser un solo párrafo.`; break;
-                case 3: title = "Crecimiento y Santidad (Gary Thomas)"; prompt = `Actuando como un consejero matrimonial inspirado en la obra 'Sacred Marriage' de Gary Thomas, genera una pregunta de reflexión para ${userName} y ${partnerName} sobre cómo ver una frustración reciente como una oportunidad de crecimiento espiritual. La respuesta debe ser un solo párrafo.`; break;
-                case 4: title = "Ancla del Pacto"; prompt = `Eres un consejero matrimonial. Genera una reflexión corta para ${userName} y ${partnerName} sobre la importancia de recordar y reafirmar su compromiso. Anímalos a compartir tres cosas que valoran el uno del otro. La respuesta debe ser un solo párrafo.`; break;
-                case 5: title = "Comunicación y Paz"; prompt = `Eres un experto en comunicación de parejas. Genera un reto práctico y corto para ${userName} y ${partnerName} para practicar la escucha activa durante 10 minutos sin interrupciones. El objetivo no es solucionar problemas, sino entenderse. La respuesta debe ser un solo párrafo.`; break;
-            }
-            if (prompt === "") { return res.status(500).json({ error: "Could not determine prompt for today." }); }
+            const day = new Date().getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+            const dayDocRef = admin.firestore().collection('dailyJourney').doc(`day${day}`);
+            const dayDoc = await dayDocRef.get();
 
-            // 4. Llamar a Gemini y devolver la respuesta
+            if (!dayDoc.exists) {
+                return res.status(404).json({ error: "No content found for today's journey." });
+            }
+
+            const dailyContent = dayDoc.data();
+            const title = dailyContent.title;
+            const seed = dailyContent.seed;
+
+            // Construir el prompt personalizado para Gemini usando la "semilla"
+            const prompt = `Eres un consejero matrimonial y espiritual. Basado en la siguiente reflexión/desafío: "${seed}". Genera un párrafo corto y práctico para la pareja ${userName} y ${partnerName}. Asegúrate de que el tono sea inspirador y que el contenido sea directamente aplicable a su relación.`;
+            
             const result = await model.generateContent(prompt);
             const response = await result.response;
             const text = response.text();
@@ -97,11 +117,19 @@ exports.setUserProfile = functions.https.onRequest((req, res) => {
         if (req.method !== 'POST') { return res.status(405).send('Method Not Allowed'); }
         try {
             const uid = await getAuthenticatedUid(req);
-            const { userName, partnerName } = req.body;
+            const { userName, partnerName, userLoveLanguage, partnerLoveLanguage } = req.body;
             if (!userName || !partnerName) { throw new functions.https.HttpsError('invalid-argument', 'Names are required.'); }
             
+            const profileData = {
+                userName,
+                partnerName,
+                userLoveLanguage: userLoveLanguage || null,
+                partnerLoveLanguage: partnerLoveLanguage || null,
+                updatedAt: FieldValue.serverTimestamp()
+            };
+
             const profileRef = admin.firestore().collection('profiles').doc(uid);
-            await profileRef.set({ userName, partnerName, updatedAt: FieldValue.serverTimestamp() });
+            await profileRef.set(profileData, { merge: true });
 
             res.status(200).json({ success: true, message: 'Perfil guardado con éxito.' });
         } catch (error) {

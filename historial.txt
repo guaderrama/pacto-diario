@@ -1,0 +1,25 @@
+Claro. Aquí tienes el resumen completo y detallado, incorporando todo lo que hemos construido.
+
+Resumen Completo de la App "Pacto Diario"
+1. ¿Cuál es el Objetivo Principal? Es una aplicación web diseñada como un refugio digital para que las parejas cristianas cultiven y fortalezcan su relación de una manera personal y guiada por la fe.
+
+2. ¿Cómo Funciona para el Usuario?
+
+Paso A: Entrada Segura y Personal
+
+El usuario llega a una pantalla donde puede registrarse o iniciar sesión con un correo y contraseña. Esto mantiene la privacidad de cada pareja.
+Paso B: El Perfil de la Pareja (El Corazón de la App)
+
+Dentro de la aplicación, hay una sección de "Perfil" donde el usuario puede guardar los datos clave de su relación:
+Su nombre y el nombre de su esposa.
+Su Lenguaje del Amor y el de su esposa (seleccionándolo de una lista).
+Estos datos son cruciales porque permiten que la aplicación les hable directamente y de forma personalizada.
+Paso C: Usar las Herramientas de IA
+
+Una vez configurado el perfil, el usuario accede a la pantalla principal que tiene dos herramientas potenciadas por Inteligencia Artificial (Gemini):
+Nuestro Viaje Diario: Una tarjeta que, al hacer clic, genera un consejo o reflexión del día. La IA usa los nombres de la pareja para crear un mensaje que se sienta personal y directo.
+Santuario de Oración (Logos): Un espacio interactivo para la oración. El usuario escribe un tema (ej: "estrés en el trabajo") y la IA le devuelve una guía de oración completa que incluye una historia bíblica, un dato teológico y una oración para la pareja sobre ese tema.
+3. ¿Qué Aspecto Tiene? (Diseño y Estilo)
+
+La aplicación tiene un tema oscuro, moderno y elegante, con un fondo en tonos de gris y negro y texto claro para que sea fácil de leer y visualmente atractivo.
+En la sección del "Santuario de Oración", hay un efecto sutil de rayos de luz en el fondo para crear una atmósfera de paz y espiritualidad.
