@@ -11,27 +11,27 @@
 <body class="bg-gradient-to-br from-gray-900 to-black text-gray-100 min-h-screen flex flex-col">
 
     <!-- Login View -->
-    <section id="login-view" class="flex flex-col items-center justify-center flex-1 p-4">
-        <h1 class="text-4xl font-bold text-center mb-6 text-white">Pacto Diario</h1>
-        <form id="login-form" class="flex flex-col gap-4 w-full max-w-sm">
-            <input type="email" id="login-email" placeholder="Correo electrónico" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
-            <input type="password" id="login-password" placeholder="Contraseña" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
-            <button type="submit" class="w-full py-3 rounded-lg bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition duration-200">Iniciar Sesión</button>
-            <p id="login-error" class="text-red-400 text-center text-sm h-4"></p>
+    <section id="login-view" class="flex flex-col items-center justify-center flex-1 p-4 md:p-8">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-6 md:mb-8 text-white">Pacto Diario</h1>
+        <form id="login-form" class="flex flex-col gap-4 md:gap-6 w-full max-w-sm">
+            <input type="email" id="login-email" placeholder="Correo electrónico" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
+            <input type="password" id="login-password" placeholder="Contraseña" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
+            <button type="submit" class="w-full py-3 md:py-4 rounded-lg bg-red-600 text-white font-bold text-lg md:text-xl hover:bg-red-700 transition duration-200">Iniciar Sesión</button>
+            <p id="login-error" class="text-red-400 text-center text-sm md:text-base h-4"></p>
         </form>
-        <button id="show-register-btn" class="mt-6 text-red-400 hover:underline">¿No tienes cuenta? Regístrate</button>
+        <button id="show-register-btn" class="mt-6 md:mt-8 text-red-400 hover:underline text-base md:text-lg">¿No tienes cuenta? Regístrate</button>
     </section>
 
     <!-- Register View -->
-    <section id="register-view" class="hidden flex-col items-center justify-center flex-1 p-4">
-        <h1 class="text-4xl font-bold text-center mb-6 text-white">Crear Cuenta</h1>
-        <form id="register-form" class="flex flex-col gap-4 w-full max-w-sm">
-            <input type="email" id="register-email" placeholder="Correo electrónico" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
-            <input type="password" id="register-password" placeholder="Contraseña" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
-            <button type="submit" class="w-full py-3 rounded-lg bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition duration-200">Registrarse</button>
-            <p id="register-error" class="text-red-400 text-center text-sm h-4"></p>
+    <section id="register-view" class="hidden flex-col items-center justify-center flex-1 p-4 md:p-8">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-6 md:mb-8 text-white">Crear Cuenta</h1>
+        <form id="register-form" class="flex flex-col gap-4 md:gap-6 w-full max-w-sm">
+            <input type="email" id="register-email" placeholder="Correo electrónico" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
+            <input type="password" id="register-password" placeholder="Contraseña" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
+            <button type="submit" class="w-full py-3 md:py-4 rounded-lg bg-red-600 text-white font-bold text-lg md:text-xl hover:bg-red-700 transition duration-200">Registrarse</button>
+            <p id="register-error" class="text-red-400 text-center text-sm md:text-base h-4"></p>
         </form>
-        <button id="show-login-btn" class="mt-6 text-red-400 hover:underline">¿Ya tienes cuenta? Inicia Sesión</button>
+        <button id="show-login-btn" class="mt-6 md:mt-8 text-red-400 hover:underline text-base md:text-lg">¿Ya tienes cuenta? Inicia Sesión</button>
     </section>
 
     <!-- Main App Content (hidden until authenticated) -->
@@ -62,53 +62,53 @@
             <a href="#" id="logout-btn-mobile" class="block py-3 px-4 text-white hover:bg-gray-700">Salir</a>
         </div>
 
-        <main class="flex-1 p-6 overflow-y-auto">
+        <main class="flex-1 p-6 md:p-8 overflow-y-auto">
             <!-- Home View -->
-            <div id="home-view" class="space-y-8">
-                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-3xl font-bold text-white mb-4">Bienvenido, <span id="user-name-display"></span></h3>
-                    <p class="text-gray-300 text-lg">Aquí encontrarás herramientas para fortalecer tu relación.</p>
+            <div id="home-view" class="space-y-8 md:space-y-10">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4 md:mb-6">Bienvenido, <span id="user-name-display"></span></h3>
+                    <p class="text-gray-300 text-lg md:text-xl">Aquí encontrarás herramientas para fortalecer tu relación.</p>
                 </div>
 
                 <!-- Daily Journey Card -->
-                <div id="daily-journey-card" class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-2xl font-bold text-white mb-4">Nuestro Viaje Diario</h3>
-                    <p class="text-gray-300 mb-4">Una reflexión diaria para crecer juntos.</p>
-                    <button id="get-daily-journey-btn" class="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition duration-200">Obtener Viaje Diario</button>
-                    <div id="daily-journey-content" class="mt-6 text-gray-200 leading-relaxed"></div>
+                <div id="daily-journey-card" class="bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-4 md:mb-6">Nuestro Viaje Diario</h3>
+                    <p class="text-gray-300 text-base md:text-lg mb-4 md:mb-6">Una reflexión diaria para crecer juntos.</p>
+                    <button id="get-daily-journey-btn" class="bg-red-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-bold text-lg md:text-xl hover:bg-red-700 transition duration-200">Obtener Viaje Diario</button>
+                    <div id="daily-journey-content" class="mt-6 md:mt-8 text-gray-200 text-base md:text-lg leading-relaxed"></div>
                 </div>
 
                 <!-- Sanctuary View (Logos) -->
-                <div id="sanctuary-view" class="bg-gray-800 rounded-lg shadow-lg p-6 relative overflow-hidden">
+                <div id="sanctuary-view" class="bg-gray-800 rounded-lg shadow-lg p-6 md:p-8 relative overflow-hidden">
                     
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-bold text-white mb-4">Santuario de Oración</h3>
-                        <p class="text-gray-300 mb-4">Hola, soy Logos. ¿En qué puedo ayudarte hoy?</p>
-                        <textarea id="logos-input" class="w-full p-4 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 h-32 mb-4"></textarea>
-                        <button id="generar-guia-btn" class="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition duration-200">Generar Guía</button>
-                        <div id="logos-response" class="mt-6 text-gray-200 leading-relaxed"></div>
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-4 md:mb-6">Santuario de Oración</h3>
+                        <p class="text-gray-300 text-base md:text-lg mb-4 md:mb-6">Hola, soy Logos. ¿En qué puedo ayudarte hoy?</p>
+                        <textarea id="logos-input" class="w-full p-4 md:p-5 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 h-32 md:h-40 text-base md:text-lg mb-4 md:mb-6"></textarea>
+                        <button id="generar-guia-btn" class="bg-red-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-bold text-lg md:text-xl hover:bg-red-700 transition duration-200">Generar Guía</button>
+                        <div id="logos-response" class="mt-6 md:mt-8 text-gray-200 text-base md:text-lg leading-relaxed"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Profile View -->
-            <div id="profile-view" class="hidden space-y-8">
-                <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                    <h3 class="text-3xl font-bold text-white mb-4">Mi Perfil</h3>
-                    <form id="profile-form" class="space-y-4">
+            <div id="profile-view" class="hidden space-y-8 md:space-y-10">
+                <div class="bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4 md:mb-6">Mi Perfil</h3>
+                    <form id="profile-form" class="space-y-4 md:space-y-6">
                         <div>
-                            <label for="profile-name" class="block text-gray-300 text-sm font-bold mb-2">Tu Nombre:</label>
-                            <input type="text" id="profile-name" class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <label for="profile-name" class="block text-gray-300 text-sm md:text-base font-semibold mb-2">Tu Nombre:</label>
+                            <input type="text" id="profile-name" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
                         </div>
                         <div>
-                            <label for="profile-partner-name" class="block text-gray-300 text-sm font-bold mb-2">Nombre de tu Pareja:</label>
-                            <input type="text" id="profile-partner-name" class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <label for="profile-partner-name" class="block text-gray-300 text-sm md:text-base font-semibold mb-2">Nombre de tu Pareja:</label>
+                            <input type="text" id="profile-partner-name" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
                         </div>
                         
                         <!-- Love Language Selectors -->
                         <div>
-                            <label for="user-love-language" class="block text-gray-300 text-sm font-bold mb-2">Tu Lenguaje del Amor:</label>
-                            <select id="user-love-language" class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <label for="user-love-language" class="block text-gray-300 text-sm md:text-base font-semibold mb-2">Tu Lenguaje del Amor:</label>
+                            <select id="user-love-language" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
                                 <option value="">Selecciona...</option>
                                 <option value="words_of_affirmation">Palabras de Afirmación</option>
                                 <option value="quality_time">Tiempo de Calidad</option>
@@ -118,8 +118,8 @@
                             </select>
                         </div>
                         <div>
-                            <label for="partner-love-language" class="block text-gray-300 text-sm font-bold mb-2">Lenguaje del Amor de tu Pareja:</label>
-                            <select id="partner-love-language" class="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <label for="partner-love-language" class="block text-gray-300 text-sm md:text-base font-semibold mb-2">Lenguaje del Amor de tu Pareja:</label>
+                            <select id="partner-love-language" class="w-full px-4 py-3 md:px-5 md:py-4 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 text-base md:text-lg">
                                 <option value="">Selecciona...</option>
                                 <option value="words_of_affirmation">Palabras de Afirmación</option>
                                 <option value="quality_time">Tiempo de Calidad</option>
@@ -129,16 +129,16 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="w-full py-3 rounded-lg bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition duration-200">Guardar Perfil</button>
-                        <p id="profile-save-message" class="text-green-400 text-center text-sm h-4"></p>
+                        <button type="submit" class="w-full py-3 md:py-4 rounded-lg bg-red-600 text-white font-bold text-lg md:text-xl hover:bg-red-700 transition duration-200">Guardar Perfil</button>
+                        <p id="profile-save-message" class="text-green-400 text-center text-sm md:text-base h-4"></p>
                     </form>
                 </div>
             </div>
         </main>
 
-        <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm shadow-inner">
+        <footer class="bg-gray-800 p-4 md:p-6 text-center text-gray-400 text-sm md:text-base shadow-inner">
             <p>&copy; 2025 Pacto Diario. Todos los derechos reservados.</p>
-            <button id="dark-mode-toggle" class="mt-2 text-gray-400 hover:text-white transition duration-200">Alternar Modo Oscuro</button>
+            <button id="dark-mode-toggle" class="mt-2 md:mt-4 text-gray-400 hover:text-white transition duration-200">Alternar Modo Oscuro</button>
         </footer>
     </section>
 
